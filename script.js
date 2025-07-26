@@ -1,4 +1,8 @@
 const API_URL = "https://api.github.com";
+const AUTH_TOKEN =
+  "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";
+const noInfoText = "Not specified";
+
 const form = document.getElementById("username-search");
 
 const userInfoContainer = document.getElementById("user-info");
@@ -38,7 +42,11 @@ const loadData = async () => {
 const setUserData = async () => {
   const findUser = async () => {
     try {
-      const response = await fetch(`${API_URL}/users/${username}`);
+      const response = await fetch(`${API_URL}/users/${username}`, {
+        headers: {
+          Authorization: `Bearer ${AUTH_TOKEN}`,
+        },
+      });
       return await response.json();
     } catch (error) {
       console.log(error);
@@ -51,8 +59,8 @@ const setUserData = async () => {
     nameElement.textContent = userData.name;
     loginElement.textContent = userData.login;
     bioElement.textContent = userData.bio;
-    locationElement.textContent = userData.location;
-    createdAtElement.textContent = userData.created_at;
+    locationElement.textContent = userData.location || noInfoText;
+    createdAtElement.textContent = formateDate(userData.created_at);
 
     viewProfileBtn.href = userData.html_url;
 
@@ -60,9 +68,9 @@ const setUserData = async () => {
     followingElement.textContent = userData.following;
     publicReposElement.textContent = userData.public_repos;
 
-    companyElement.textContent = userData.company || "No Company";
-    blogElement.textContent = userData.blog || "No Personal Website";
-    twitterElement.textContent = userData.twitter_username || "No Twitter";
+    companyElement.textContent = userData.company || noInfoText;
+    blogElement.textContent = userData.blog || noInfoText;
+    twitterElement.textContent = userData.twitter_username || noInfoText;
   };
 
   const userData = await findUser();
@@ -71,10 +79,15 @@ const setUserData = async () => {
 
 const setReposData = async () => {
   const findUserRepos = async () => {
-    reposContainer.innerHTML = "<p>Loading Repos...</p>";
+    reposContainer.innerHTML = "<p>Loading...</p>";
     try {
       const response = await fetch(
-        `${API_URL}/users/${username}/repos?sort=updated&direction=desc`
+        `${API_URL}/users/${username}/repos?sort=updated&direction=desc`,
+        {
+          headers: {
+            Authorization: `Bearer ${AUTH_TOKEN}`,
+          },
+        }
       );
       return await response.json();
     } catch (error) {
@@ -83,18 +96,37 @@ const setReposData = async () => {
   };
 
   const displayReposData = () => {
-    for (const item of reposData) {
-      console.log(
-        item.name,
-        item.description,
-        item.stargazers_count,
-        item.forks,
-        item.updated_at,
-        item.html_url
-      );
+    reposContainer.innerHTML = "";
+    if (reposData.length > 0) {
+      for (const item of reposData) {
+        const repoDiv = document.createElement("div");
+        repoDiv.classList.add("repo-card");
+
+        repoDiv.innerHTML = `
+        <h4><a href=${item.html_url} target="_blank">${item.name}</a></h4>
+        <p>${item.description || ""}</p>
+        <span>${item.stargazers_count}</span>
+        <span>${item.forks}</span>
+        <span>${formateDate(item.updated_at)}</span>`;
+
+        reposContainer.appendChild(repoDiv);
+      }
+    } else {
+      reposContainer.innerHTML = "<p>No repos to show</p>";
     }
   };
 
   const reposData = await findUserRepos();
   displayReposData();
 };
+
+const formateDate = (dateString) => {
+  const dateObject = new Date(dateString);
+  return dateObject.toLocaleDateString("en-NZ", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
+loadData();
