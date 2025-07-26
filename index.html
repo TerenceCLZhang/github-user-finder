@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub User Finder</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1><i class="fa-brands fa-github"></i> GitHub User Finder</h1>
+      <p>Search for any GitHub user and find their profile and repositories</p>
+    </header>
+
+    <main>
+      <form id="username-search">
+        <fieldset>
+          <label for="username" class="sr-only">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter username..."
+            required
+          />
+        </fieldset>
+        <input type="submit" value="Search" />
+      </form>
+
+      <article class="user-info" id="user-info">
+        <img src="" alt="user profile picture" id="avatar" />
+        <h2 id="name"></h2>
+        <span id="login"></span>
+        <p id="bio"></p>
+        <span id="location"></span>
+        <span id="created_at"></span>
+        <a id="view-profile-btn" target="_blank">View Profile</a>
+        <div>
+          <span><span id="followers"></span> followers</span>
+          <span><span id="following"></span> following</span>
+          <span><span id="public-repos"></span> repositories</span>
+        </div>
+
+        <div>
+          <div class="stat"><a id="company" target="_blank"></a></div>
+          <div class="stat"><a id="blog" target="_blank"></a></div>
+          <div class="stat"><a id="twitter" target="_blank"></a></div>
+        </div>
+
+        <section>
+          <h3>Latest Repositories</h3>
+          <div id="repos-container"></div>
+        </section>
+      </article>
+    </main>
+
+    <footer>
+      <p>
+        Made by
+        <a href="https://github.com/TerenceCLZhang" target="_blank"
+          >Terence Zhang</a
+        >
+      </p>
+      <p><a href="#">GitHub Repo</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
