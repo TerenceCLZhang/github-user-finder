@@ -9,11 +9,14 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
     />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="language.css" />
   </head>
   <body>
     <header>
       <h1><i class="fa-brands fa-github"></i> GitHub User Finder</h1>
-      <p>Search for any GitHub user and find their profile and repositories</p>
+      <p class="description">
+        Search for any GitHub user and find their profile and repositories
+      </p>
     </header>
 
     <main>
@@ -31,50 +34,64 @@
         <input type="submit" value="Search" />
       </form>
 
-      <article class="user-info" id="user-info">
-        <img src="" alt="user profile picture" id="avatar" />
-        <span id="name"></span>
-        <h2 id="login"></h2>
-        <p id="bio"></p>
-        <div title="Location">
-          <i class="fa-solid fa-location-dot"></i> <span id="location"></span>
-        </div>
-        <div title="Creation date">
-          <i class="fa-solid fa-calendar"></i> <span id="created_at"></span>
-        </div>
-        <a id="view-profile-btn" target="_blank">View Profile</a>
-        <div>
-          <div>
-            <i class="fa-solid fa-users"></i>
-            <span id="followers"></span> followers
+      <article id="github-info" class="github-info">
+        <section class="user-info">
+          <div class="user-info user-info-head">
+            <img src="" alt="user profile picture" id="avatar" class="avatar" />
+            <div class="user-info-container">
+              <span id="name" class="name"></span>
+              <h2 id="login" class="login"></h2>
+              <p id="bio" class="bio"></p>
+              <div title="Location">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="location"></span>
+              </div>
+              <div title="Creation date">
+                <i class="fa-solid fa-calendar"></i> Joined
+                <span id="created_at"></span>
+              </div>
+              <a id="view-profile-btn" class="view-profile-btn" target="_blank"
+                >View Profile</a
+              >
+            </div>
           </div>
-          <div>
-            <i class="fa-solid fa-user-group"></i>
-            <span id="following"></span> following
-          </div>
-          <div>
-            <i class="fa-solid fa-code-branch"></i>
-            <span id="public-repos"></span> repositories
-          </div>
-        </div>
 
-        <div>
-          <div title="Company">
-            <i class="fa-solid fa-building"></i>
-            <a id="company" target="_blank"></a>
+          <div class="user-info-container children-background info-flex-row">
+            <div>
+              <i class="fa-solid fa-users"></i>
+              <span id="followers"></span> followers
+            </div>
+            <div>
+              <i class="fa-solid fa-user-group"></i>
+              <span id="following"></span> following
+            </div>
+            <div>
+              <i class="fa-solid fa-code-branch"></i>
+              <span id="public-repos"></span> repositories
+            </div>
           </div>
-          <div title="Personal website">
-            <i class="fa-solid fa-link"></i> <a id="blog" target="_blank"></a>
-          </div>
-          <div title="Twitter/X account">
-            <i class="fa-brands fa-x-twitter"></i>
-            <a id="twitter" target="_blank"></a>
-          </div>
-        </div>
 
-        <section>
+          <div class="user-info-container info-flex-row">
+            <div title="Company">
+              <i class="fa-solid fa-building"></i>
+              <span id="company"></span>
+            </div>
+            <div title="Personal website">
+              <i class="fa-solid fa-link"></i> <a id="blog" target="_blank"></a>
+            </div>
+            <div title="Twitter/X account">
+              <i class="fa-brands fa-x-twitter"></i>
+              <a id="twitter" target="_blank"></a>
+            </div>
+          </div>
+        </section>
+
+        <section class="repos-info">
           <h3>Latest Repositories</h3>
-          <div id="repos-container"></div>
+          <div
+            id="repos-container"
+            class="repos-container children-background"
+          ></div>
         </section>
       </article>
     </main>

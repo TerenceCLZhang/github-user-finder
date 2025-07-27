@@ -5,7 +5,7 @@ const noInfoText = "Not specified";
 
 const form = document.getElementById("username-search");
 
-const userInfoContainer = document.getElementById("user-info");
+const userInfoContainer = document.getElementById("github-info");
 
 const avatarElement = document.getElementById("avatar");
 const nameElement = document.getElementById("name");
@@ -50,6 +50,7 @@ const setUserData = async () => {
       return await response.json();
     } catch (error) {
       console.log(error);
+      alert("An unexpected error occured");
     }
   };
 
@@ -58,19 +59,31 @@ const setUserData = async () => {
 
     nameElement.textContent = userData.name;
     loginElement.textContent = userData.login;
-    bioElement.textContent = userData.bio;
+    bioElement.textContent = escapeHTML(userData.bio);
     locationElement.textContent = userData.location || noInfoText;
     createdAtElement.textContent = formateDate(userData.created_at);
 
-    viewProfileBtn.href = userData.html_url;
+    viewProfileBtn.href = userData.html_url || "https://github.com/";
 
-    followersElement.textContent = userData.followers;
-    followingElement.textContent = userData.following;
-    publicReposElement.textContent = userData.public_repos;
+    followersElement.textContent = userData.followers || 0;
+    followingElement.textContent = userData.following || 0;
+    publicReposElement.textContent = userData.public_repos || 0;
 
     companyElement.textContent = userData.company || noInfoText;
+
     blogElement.textContent = userData.blog || noInfoText;
+    if (userData.blog) {
+      blogElement.href = userData.blog;
+    } else {
+      blogElement.removeAttribute("href");
+    }
+
     twitterElement.textContent = userData.twitter_username || noInfoText;
+    if (userData.twitter_username) {
+      twitterElement.href = `https://x.com/${userData.twitter_username}`;
+    } else {
+      twitterElement.removeAttribute("href");
+    }
   };
 
   const userData = await findUser();
@@ -92,6 +105,7 @@ const setReposData = async () => {
       return await response.json();
     } catch (error) {
       console.log(error);
+      alert("An unexpected error occured");
     }
   };
 
@@ -103,11 +117,27 @@ const setReposData = async () => {
         repoDiv.classList.add("repo-card");
 
         repoDiv.innerHTML = `
-        <h4><a href=${item.html_url} target="_blank">${item.name}</a></h4>
-        <p>${item.description || ""}</p>
-        <span>${item.stargazers_count}</span>
-        <span>${item.forks}</span>
-        <span>${formateDate(item.updated_at)}</span>`;
+        <div>
+          <h4><i class="fa-solid fa-code-branch"></i> <a href=${
+            item.html_url
+          } target="_blank" class="repo-name">${item.name}</a></h4>
+          <p class="repo-desc">${escapeHTML(item.description) || ""}</p>
+        </div>
+        
+        <div class="repo-info">
+          <div><i class="fa-solid fa-circle ${item.language}"></i> <span>${
+          item.language || "N/A"
+        }</span></div>
+          <div><i class="fa-solid fa-star"></i> <span>${
+            item.stargazers_count
+          }</span></div>
+          <div><i class="fa-solid fa-code-fork"></i> <span>${
+            item.forks
+          }</span></div>
+          <div><i class="fa-solid fa-clock-rotate-left"></i> <span>${formateDate(
+            item.updated_at
+          )}</span></div>
+        </div>`;
 
         reposContainer.appendChild(repoDiv);
       }
@@ -127,6 +157,17 @@ const formateDate = (dateString) => {
     month: "short",
     day: "numeric",
   });
+};
+
+const escapeHTML = (str) => {
+  if (!str) return "";
+
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 };
 
 loadData();
