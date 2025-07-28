@@ -160,7 +160,7 @@ input[type="submit"] {
   font-weight: 700;
   background-color: var(--violet);
   cursor: pointer;
-  width: 100px;
+  width: 150px;
   transition: all 0.15s ease-in;
 }
 
@@ -333,10 +333,6 @@ footer {
 
   input[type="text"] {
     padding: 1rem 1.5rem;
-  }
-
-  input[type="submit"] {
-    width: 150px;
   }
 
   .user-info-head {

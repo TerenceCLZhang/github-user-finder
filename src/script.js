@@ -84,7 +84,7 @@ const setUserData = async () => {
   };
 
   const displayUserData = () => {
-    avatarElement.src = userData.avatar_url || "src/assets/default.png";
+    avatarElement.src = userData.avatar_url || "/assets/default.png";
 
     nameElement.textContent = userData.name;
     loginElement.textContent = userData.login || "N/A";
