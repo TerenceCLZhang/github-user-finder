@@ -1,6 +1,6 @@
 # GitHub User Finder
 
-![GitHub User Finder](src/assets/website.png)
+![GitHub User Finder](website.png)
 
 A web app to search for any GitHub user and display their public profile information and latest repositories.
 
