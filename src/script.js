@@ -1,13 +1,10 @@
+const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN;
 const API_URL = "https://api.github.com";
-const AUTH_TOKEN =
-  "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";
 const noInfoText = "Not specified";
 
 const form = document.getElementById("username-search");
 const formErrorElement = document.getElementById("form-error");
 const searchBtnElement = document.getElementById("search-btn");
-
-const userInfoContainer = document.getElementById("github-info");
 
 const avatarElement = document.getElementById("avatar");
 const nameElement = document.getElementById("name");
@@ -59,7 +56,7 @@ const loadData = async () => {
 
   searchBtnElement.value = "Search";
   searchBtnElement.disabled = false;
-   viewProfileBtn.classList.remove("disabled");
+  viewProfileBtn.classList.remove("disabled");
 };
 
 const setUserData = async () => {
@@ -87,7 +84,7 @@ const setUserData = async () => {
   };
 
   const displayUserData = () => {
-    avatarElement.src = userData.avatar_url || "assets/default.png";
+    avatarElement.src = userData.avatar_url || "src/assets/default.png";
 
     nameElement.textContent = userData.name;
     loginElement.textContent = userData.login || "N/A";
