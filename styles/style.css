@@ -85,9 +85,8 @@ DOM Styles
 ========================== */
 
 * {
-  box-sizing: border-box;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  word-break: break-all;
+  overflow-wrap: anywhere;
   white-space: normal;
 }
 
@@ -106,6 +105,7 @@ body {
   font-family: "Poppins", sans-serif;
   background: var(--dark-gray);
   color: var(--light-gray);
+  font-size: 1rem;
 }
 
 header {
@@ -118,16 +118,11 @@ h1 {
 }
 
 main {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2rem;
   margin-top: 1.5rem;
-}
-
-form {
-  display: flex;
-  width: 100%;
-  height: 100%;
 }
 
 form * {
@@ -165,12 +160,19 @@ input[type="submit"] {
   font-weight: 700;
   background-color: var(--violet);
   cursor: pointer;
-  transition: all 0.2s ease-in;
+  width: 100px;
+  transition: all 0.15s ease-in;
 }
 
-input[type="submit"],
+input[type="submit"]:hover,
 .view-profile-btn:hover {
   opacity: 80%;
+}
+
+input[type="submit"]:disabled,
+.disabled {
+  cursor: not-allowed;
+  opacity: 70%;
 }
 
 a,
@@ -180,12 +182,13 @@ a:visited {
   transition: all 0.15s ease-in;
 }
 
-a:hover {
+a[href]:hover {
   color: white;
 }
 
 i {
   color: var(--violet);
+  margin-right: 2px;
 }
 
 footer {
@@ -201,6 +204,18 @@ footer {
   margin-top: 10px;
 }
 
+.form-row {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.form-error {
+  color: red;
+  font-weight: 700;
+}
+
 .github-info {
   background-color: var(--gray);
   padding: 2rem 1rem;
@@ -210,6 +225,7 @@ footer {
 .avatar {
   border-radius: 100%;
   width: 150px;
+  height: 150px;
   border: 5px solid var(--violet);
 }
 
@@ -245,7 +261,7 @@ footer {
   color: var(--dark-gray) !important;
   margin-top: 1rem;
   cursor: pointer;
-  transition: all 0.2s ease-in;
+  transition: all 0.15s ease-in;
 }
 
 .user-info-container {
@@ -257,19 +273,22 @@ footer {
   width: 100%;
 }
 
-.user-info-container > div {
+.user-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
   text-align: center;
 }
 
-.children-background {
-  margin-bottom: 1.5rem;
-  align-items: normal;
+.user-info-grid > div:nth-of-type(-n + 3) {
+  background-color: var(--dark-gray);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
 }
 
-.children-background > div {
-  padding: 0.75rem;
-  background-color: var(--dark-gray);
-  border-radius: 0.25rem;
+.user-info-grid > div:nth-of-type(3) {
+  margin-bottom: 1rem;
 }
 
 .repos-container {
@@ -278,6 +297,12 @@ footer {
   gap: 2rem;
   margin-top: 1rem;
   margin-bottom: 0;
+}
+
+.repo-card {
+  background-color: var(--dark-gray);
+  padding: 1rem;
+  border-radius: 0.75rem;
 }
 
 .repo-name,
@@ -298,6 +323,22 @@ footer {
 }
 
 @media (min-width: 601px) {
+  header {
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  input[type="text"] {
+    padding: 1rem 1.5rem;
+  }
+
+  input[type="submit"] {
+    width: 150px;
+  }
+
   .user-info-head {
     flex-direction: row;
     align-items: start;
@@ -311,13 +352,14 @@ footer {
     width: auto;
   }
 
-  .info-flex-row {
-    flex-direction: row;
-    justify-content: space-evenly;
+  .user-info-grid > div:nth-of-type(3) {
+    margin-bottom: 0;
   }
 
-  .children-background > div {
-    width: 100%;
+  .user-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 1rem;
   }
 
   .repos-container {
@@ -332,6 +374,18 @@ footer {
   }
 }
 
-@media (min-width: 1024px) {
-  
+@media (min-width: 1025px) {
+  h1 {
+    font-size: 3rem;
+  }
+
+  body {
+    width: 75vw;
+    margin: auto;
+  }
+
+  .repos-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }

@@ -4,6 +4,8 @@ const AUTH_TOKEN =
 const noInfoText = "Not specified";
 
 const form = document.getElementById("username-search");
+const formErrorElement = document.getElementById("form-error");
+const searchBtnElement = document.getElementById("search-btn");
 
 const userInfoContainer = document.getElementById("github-info");
 
@@ -30,13 +32,34 @@ let username = "terenceclzhang";
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  username = document.getElementById("username").value.trim();
+
+  username = document
+    .getElementById("username")
+    .value.trim()
+    .replace(/ /g, "-");
+
+  if (username === "") {
+    formErrorElement.textContent =
+      "ERROR: Username field cannot be empty. Please enter a valid username.";
+    return;
+  }
+
   loadData();
 });
 
 const loadData = async () => {
+  formErrorElement.textContent = "";
+
+  searchBtnElement.value = "Loading...";
+  searchBtnElement.disabled = true;
+  viewProfileBtn.classList.add("disabled");
+
   await setUserData();
   await setReposData();
+
+  searchBtnElement.value = "Search";
+  searchBtnElement.disabled = false;
+   viewProfileBtn.classList.remove("disabled");
 };
 
 const setUserData = async () => {
@@ -47,33 +70,54 @@ const setUserData = async () => {
           Authorization: `Bearer ${AUTH_TOKEN}`,
         },
       });
-      return await response.json();
+
+      const userData = await response.json();
+
+      if (response.status === 404) {
+        formErrorElement.textContent = userData.message
+          ? `ERROR: ${userData.message}. Please ensure the username is correct.`
+          : "ERROR: Something went wrong. Please try again.";
+      }
+
+      return userData;
     } catch (error) {
       console.log(error);
-      alert("An unexpected error occured");
+      formErrorElement.textContent = "An unexpected error occured";
     }
   };
 
   const displayUserData = () => {
-    avatarElement.src = userData.avatar_url;
+    avatarElement.src = userData.avatar_url || "assets/default.png";
 
     nameElement.textContent = userData.name;
-    loginElement.textContent = userData.login;
+    loginElement.textContent = userData.login || "N/A";
     bioElement.textContent = escapeHTML(userData.bio);
     locationElement.textContent = userData.location || noInfoText;
     createdAtElement.textContent = formateDate(userData.created_at);
 
     viewProfileBtn.href = userData.html_url || "https://github.com/";
 
-    followersElement.textContent = userData.followers || 0;
-    followingElement.textContent = userData.following || 0;
-    publicReposElement.textContent = userData.public_repos || 0;
+    const followerCount = userData.followers || 0;
+    followersElement.textContent = `${followerCount} ${
+      followerCount === 1 ? "follower" : "followers"
+    }`;
+
+    const followingCount = userData.following || 0;
+    followingElement.textContent = `${followingCount} following`;
+
+    const repoCount = userData.public_repos || 0;
+    publicReposElement.textContent = `${repoCount} ${
+      repoCount === 1 ? "repository" : "repositories"
+    }`;
 
     companyElement.textContent = userData.company || noInfoText;
 
     blogElement.textContent = userData.blog || noInfoText;
     if (userData.blog) {
-      blogElement.href = userData.blog;
+      const blogURL = userData.blog?.startsWith("http")
+        ? userData.blog
+        : `https://${userData.blog}`;
+      blogElement.href = blogURL;
     } else {
       blogElement.removeAttribute("href");
     }
@@ -105,7 +149,7 @@ const setReposData = async () => {
       return await response.json();
     } catch (error) {
       console.log(error);
-      alert("An unexpected error occured");
+      formErrorElement.textContent = "An unexpected error occured";
     }
   };
 

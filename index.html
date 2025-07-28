@@ -8,8 +8,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="language.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/language.css" />
   </head>
   <body>
     <header>
@@ -21,23 +21,31 @@
 
     <main>
       <form id="username-search">
-        <fieldset>
-          <label for="username" class="sr-only">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Enter username..."
-            required
-          />
-        </fieldset>
-        <input type="submit" value="Search" />
+        <div class="form-row">
+          <fieldset>
+            <label for="username" class="sr-only">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter username..."
+            />
+          </fieldset>
+          <input type="submit" value="Search" id="search-btn" />
+        </div>
+        <span id="form-error" class="form-error"></span>
       </form>
 
       <article id="github-info" class="github-info">
         <section class="user-info">
           <div class="user-info user-info-head">
-            <img src="" alt="user profile picture" id="avatar" class="avatar" />
+            <img
+              src=""
+              alt="user profile picture"
+              id="avatar"
+              class="avatar"
+              onerror="this.onerror=null; this.src='assets/default.png';"
+            />
             <div class="user-info-container">
               <span id="name" class="name"></span>
               <h2 id="login" class="login"></h2>
@@ -56,28 +64,26 @@
             </div>
           </div>
 
-          <div class="user-info-container children-background info-flex-row">
+          <div class="user-info-grid">
             <div>
               <i class="fa-solid fa-users"></i>
-              <span id="followers"></span> followers
+              <span id="followers"></span>
             </div>
             <div>
               <i class="fa-solid fa-user-group"></i>
-              <span id="following"></span> following
+              <span id="following"></span>
             </div>
             <div>
               <i class="fa-solid fa-code-branch"></i>
-              <span id="public-repos"></span> repositories
+              <span id="public-repos"></span>
             </div>
-          </div>
-
-          <div class="user-info-container info-flex-row">
             <div title="Company">
               <i class="fa-solid fa-building"></i>
               <span id="company"></span>
             </div>
             <div title="Personal website">
-              <i class="fa-solid fa-link"></i> <a id="blog" target="_blank"></a>
+              <i class="fa-solid fa-link"></i>
+              <a id="blog" target="_blank"></a>
             </div>
             <div title="Twitter/X account">
               <i class="fa-brands fa-x-twitter"></i>
@@ -103,7 +109,13 @@
           >Terence Zhang</a
         >
       </p>
-      <p><a href="#">GitHub Repo</a></p>
+      <p>
+        <a
+          href="https://github.com/TerenceCLZhang/github-user-finder"
+          target="_blank"
+          >GitHub Repo</a
+        >
+      </p>
     </footer>
 
     <script src="script.js"></script>
